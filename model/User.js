@@ -12,6 +12,9 @@ const userSchema = Schema({
 	feedback:{type:String, default:''},
 	image:{type:String, default:''},
 	status:{type:String, default:'미제출'}, // 패스, 잘함, fail
+	submit:{type:String, default:'제출하기'}, //과제없음, 마감
+	end:{type:Boolean, default:false },  // 마감여부불리언
+	
 	failNo:{type:Number, default:10000}, // 실패횟수
 	notSubmit:{type:Number, default:true}, // 제출안함
 	notSubmitNo:{type:Number, default:0} // 제출안한 횟수
