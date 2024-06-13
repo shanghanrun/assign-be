@@ -110,13 +110,39 @@ userController.getUserList=async(req,res)=>{
 }
 userController.updateUser=async(req,res)=>{
 	try{
-		const {userId, level,memo,image} = req.body;
+		const {userId, level,failNo,notSubmitNo} = req.body;
 		const updatedUser = await User.findByIdAndUpdate(
 			{_id:userId},
-			{level, memo,image},
+			{level,failNo,notSubmitNo},
 			{new: true}
 		)
 		if(!updatedUser) throw new Error("user doesn't exist")
+		res.status(200).json({status:'ok', data: updatedUser})
+	}catch(e){
+		res.status(400).json({status:'fail', error:e.message})
+	}
+}
+userController.plusFailNo=async(req,res)=>{
+	try{
+		const userId = req.userId
+		const updatedUser = await User.findByIdAndUpdate(
+			userId,
+			 { $inc: { failNo: 1 } }, // failNo 필드를 1 증가시킴
+			 {new: true}
+		)
+		res.status(200).json({status:'ok', data: updatedUser})
+	}catch(e){
+		res.status(400).json({status:'fail', error:e.message})
+	}
+}
+userController.plusNotSubmitNo=async(req,res)=>{
+	try{
+		const userId = req.userId
+		const updatedUser = await User.findByIdAndUpdate(
+			userId,
+			 { $inc: { notSubmitNo: 1 } }, // failNo 필드를 1 증가시킴
+			 {new: true}
+		)
 		res.status(200).json({status:'ok', data: updatedUser})
 	}catch(e){
 		res.status(400).json({status:'fail', error:e.message})

@@ -3,7 +3,6 @@ const Assign = require('../model/Assign')
 
 assignController.createAssign=async(req, res)=>{
 	try{
-		const userId = req.userId
 		const {userId, week,dueDate,lecture,assignType, status,submit} = req.body;
 		const newAssign = new Assign({week,dueDate,lecture,assignType,status,submit})
 		await newAssign.save()

@@ -2,6 +2,7 @@ const reportController={}
 const Report = require('../model/Report')
 const Assign = require('../model/Assign')
 const assignController = require('./assignController')
+const userController = require('./userController')
 
 reportController.createReport=async(req, res)=>{
 	try{
@@ -32,7 +33,7 @@ reportController.getReport=async(req, res)=>{
 		res.status(400).json({status:'fail', error:e.message})
 	}
 }
-reportController.getReportList=async(req,res)=>{
+reportController.getUserReportList=async(req,res)=>{
 	try{
 		const reports = await Report.find()
 		res.status(200).json({status:'ok', data: reports})
@@ -44,17 +45,23 @@ reportController.updateReport=async(req,res)=>{// 재제출할 경우와 admin�
 	//이때에는 assign에 reportId가 부여된 상태라서, reportId로 접근 가능하다.
 	// assignId도 필요하다.
 	try{
-		const {assignId, reportId, domainUrl, beUrl, feUrl,comment, response} = req.body;
+		const {assignId, reportId, domainUrl, beUrl, feUrl,comment, response,fail,notSubmit} = req.body;
 
 		const updatedReport = await Report.findByIdAndUpdate(
 			reportId,
-			{domainUrl, beUrl, feUrl,comment, response},
+			{domainUrl, beUrl, feUrl,comment, response, fail,notSubmit},
 			{new: true}
 		)
 		
 		// admin이 response를 달게 되면, assign의 feedback항목에 해당 내용을 입력한다.
 		if(response){
 			await assignController.updateAssign({assignId, response})
+		}
+		if(fail){
+			await userController.plusUserFailNo({userId})
+		}
+		if(notSubmit){
+			await userController.plusNotSubmitNo({userId})
 		}
 		if(!updatedReport) throw new Error("Report doesn't exist")
 		res.status(200).json({status:'ok', data: updatedReport})
