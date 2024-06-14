@@ -3,8 +3,8 @@ const Assign = require('../model/Assign')
 
 assignController.createAssign=async(req, res)=>{
 	try{
-		const {userId, week,dueDate,lecture,assignType, status,submit} = req.body;
-		const newAssign = new Assign({week,dueDate,lecture,assignType,status,submit})
+		const {week,dueDate,lecture,assignType, status,submit,feedback} = req.body;
+		const newAssign = new Assign({week,dueDate,lecture,assignType,status,submit,feedback})
 		await newAssign.save()
 
 		return res.status(200).json({status:'success',message:'할일 등록 성공'})
@@ -24,12 +24,20 @@ assignController.getUserAssignList=async(req,res)=>{
 		res.status(400).json({status:'fail', error: e.error})
 	}
 }
+assignController.getAssignList=async(req,res)=>{
+	try{
+		const assigns = await Assign.find()
+		res.status(200).json({status:'ok', data: assigns})
+	}catch(e){
+		res.status(400).json({status:'fail', error: e.error})
+	}
+}
 
 assignController.getAssign=async(req, res)=>{
 	try{
 		const assignId = req.assignId
 		const assign = await Assign.findById(assignId)
-		res.status(200).json({status:'success', assign })
+		res.status(200).json({status:'success', data:assign })
 	}catch(e){
 		res.status(400).json({status:'fail', error:e.message})
 	}

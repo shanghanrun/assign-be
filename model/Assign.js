@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 
 const assignSchema = Schema({
-	userId:{type:mongoose.ObjectId, default:1}, 
+	// userId:{type:mongoose.ObjectId, default:1}, 
 	week:{type:Number, default:1}, 
 	dueDate:{type:String, default:''},// 2024-06-10
 	lecture:{type:String, default:''},// 쇼핑몰 만들기 24~25

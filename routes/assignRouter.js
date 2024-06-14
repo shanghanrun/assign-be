@@ -6,7 +6,7 @@ const authController = require('../controller/authController')
 
 assignRouter.post('/', assignController.createAssign) // post '/api/assign'
 
-assignRouter.post('/list', assignController.getUserAssignList)
+assignRouter.get('/list', assignController.getAssignList)
 assignRouter.post('/one', assignController.getAssign)
 assignRouter.put('/update', authController.authenticate, authController.checkAdminPermission, assignController.updateAssign)
 
