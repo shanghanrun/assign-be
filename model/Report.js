@@ -1,14 +1,15 @@
 const mongoose =require('mongoose')
 const Schema = mongoose.Schema
+const Assign = require('./Assign')
 
 
 const reportSchema = Schema({
-	assignId:{type:mongoose.ObjectId, required:true},
+	assignId:{type:mongoose.ObjectId, ref:Assign},
 	userId:{type:mongoose.ObjectId, required:true},
 	userName:{type:String, default:''}, 
-	domainUrl:{type:String, default:''}, 
-	beUrl:{type:String, default:''},
-	feUrl:{type:String, default:''},
+	domain:{type:String, default:''}, 
+	frontEnd:{type:String, default:''},
+	backEnd:{type:String, default:''},
 	comment:{type:String, default:''},
 	response:{type:String, default:''},
 	fail:{type:Boolean, default:false},
