@@ -1,6 +1,7 @@
 const userAssignController={}
 const UserAssign = require('../model/UserAssign')
 const Assign = require('../model/Assign')
+const User = require('../model/User')
 
 userAssignController.createUserAssignList=async(req, res)=>{
 	try{

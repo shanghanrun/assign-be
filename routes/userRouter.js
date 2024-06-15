@@ -10,7 +10,11 @@ userRouter.post('/google', userController.loginWithGoogle)
 userRouter.get('/me', authController.authenticate, userController.getUser)
 userRouter.get('/', authController.authenticate, authController.checkAdminPermission, userController.getUserList)
 userRouter.get('/verify-token', authController.verifyToken)
+
+userRouter.get('/new/:userId', userController.getNewUser)
 userRouter.put('/', authController.authenticate, authController.checkAdminPermission, userController.updateUser)
+
+userRouter.post('/assigns', userController.setUserAssigns)
 
 userRouter.put('/update', authController.authenticate, authController.checkAdminPermission,userController.updateUser)
 userRouter.put('/plus-fail-no', authController.authenticate, authController.checkAdminPermission,userController.plusFailNo)

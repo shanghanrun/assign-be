@@ -12,7 +12,8 @@ const userSchema = Schema({
 	level:{type:String, default:'customer'},
 
 	failNo:{type:Number, default:0}, // 실패횟수
-	notSubmitNo:{type:Number, default:0} // 제출안한 횟수
+	notSubmitNo:{type:Number, default:0}, // 제출안한 횟수
+	assigns:{type:Array, default:[]} // 자신의 숙제리스트
 },{timestamps:true})
 
 userSchema.methods.toJSON =function(){

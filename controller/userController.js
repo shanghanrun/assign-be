@@ -1,5 +1,6 @@
 const userController={}
 const User = require('../model/User')
+const Assign = require('../model/Assign')
 const bcrypt = require('bcryptjs')
 const saltRounds =10
 const {OAuth2Client} = require('google-auth-library')
@@ -7,6 +8,8 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const secretKey = process.env.JWT_SECRET_KEY
+
+
 
 userController.createUser=async(req, res)=>{
 	try{
@@ -106,12 +109,38 @@ userController.getUserList=async(req,res)=>{
 		res.status(400).json({status:'fail', error:e.message})
 	}
 }
+
+userController.setUserAssigns=async(req,res)=>{
+	const {userId} = req.body;
+
+	try{
+		const assignList = await Assign.find()
+
+		const user = await User.findById(userId)
+		user.assigns = assignList
+		await user.save()
+
+		res.status(201).json({ message: 'user.assigns 생성 완료', data:user });
+	}catch(e){
+		return res.status(400).json({status:'fail', error:e.message})
+	}
+}
+userController.getNewUser=async(req,res)=>{
+	try{
+		const { userId } = req.params;
+		const foundUser = await User.findById(userId)
+		res.status(200).json({status:'ok', data: foundUser})
+	}catch(e){
+		res.status(400).json({status:'fail', error:e.message})
+	}
+}
+
 userController.updateUser=async(req,res)=>{
 	try{
-		const {userId, level,failNo,notSubmitNo} = req.body;
+		const {userId, level,failNo,notSubmitNo, assigns} = req.body;
 		const updatedUser = await User.findByIdAndUpdate(
 			{_id:userId},
-			{level,failNo,notSubmitNo},
+			{level,failNo,notSubmitNo, assigns},
 			{new: true}
 		)
 		if(!updatedUser) throw new Error("user doesn't exist")
