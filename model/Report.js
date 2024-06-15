@@ -1,12 +1,15 @@
 const mongoose =require('mongoose')
+const User = require('./User')
+const UserAssign = require('./UserAssign')
 const Schema = mongoose.Schema
-const Assign = require('./Assign')
 
 
 const reportSchema = Schema({
-	assignId:{type:mongoose.ObjectId, ref:Assign},
-	userId:{type:mongoose.ObjectId, required:true},
+	userAssignId: { type: mongoose.ObjectId, ref: 'UserAssign' },
+	userId:{type:mongoose.ObjectId, ref:User},
 	userName:{type:String, default:''}, 
+	assignDueDate:{type:String, default:''},
+	assignLecture:{type:String, default:''},
 	domain:{type:String, default:''}, 
 	frontEnd:{type:String, default:''},
 	backEnd:{type:String, default:''},

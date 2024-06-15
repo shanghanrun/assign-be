@@ -63,8 +63,6 @@ userController.loginWithGoogle= async(req, res)=>{
 		})
 		const {email, name} = tokenInfo.getPayload()
 		const user = await User.findOne({email})
-		console.log('찾은 email: name = ', email, ' : ', name)
-		console.log('찾은 유저 정보 :', user )
 		if(!user){ 
 			// user를 생성한다.
 			const randomPassword = ''+Math.floor(Math.random()*100000) //문자열로 만들기

@@ -6,8 +6,8 @@ const userController = require('./userController')
 
 reportController.createReport=async(req, res)=>{
 	try{
-		const {userId, userName, assignId, domain, frontEnd, backEnd,comment} = req.body;
-		const newReport = new Report({userId,userName, assignId, domain, frontEnd, backEnd,comment})
+		const {userId, userName, assignId, assignDueDate, assignLecture,domain, frontEnd, backEnd,comment} = req.body;
+		const newReport = new Report({userId,userName, assignId, assignDueDate, assignLecture, domain, frontEnd, backEnd,comment})
 		await newReport.save()
 
 		// assign에 reportId를 넣어준다.
